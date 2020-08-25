@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "996564868154",
+    "firebase_url": "https://locate-me-3bd07.firebaseio.com",
+    "project_id": "locate-me-3bd07",
+    "storage_bucket": "locate-me-3bd07.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996564868154:android:6f26f475aaa99a5a8f2903",
+        "android_client_info": {
+          "package_name": "com.realshovanshah.locateme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "996564868154-fsiqcu355ieeimpg7s6s2cgpftvv4uc0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.realshovanshah.locateme",
+            "certificate_hash": "3124a944c880b7f91ce550711fff938cb2e09d94"
+          }
+        },
+        {
+          "client_id": "996564868154-pu3hm7c1n4kefal433k6d0tsf91qv5de.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwk3Ygw2vW2jyRk99SawKWuwH98Y974js"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "996564868154-pu3hm7c1n4kefal433k6d0tsf91qv5de.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
