@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "996564868154-2p8dsd2bpb2m2ncsjn1upnvuumn6ae7b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.realshovanshah.locateme",
+            "certificate_hash": "71e13a5951628db841dadb62489b420660f7c647"
+          }
+        },
+        {
           "client_id": "996564868154-fsiqcu355ieeimpg7s6s2cgpftvv4uc0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
