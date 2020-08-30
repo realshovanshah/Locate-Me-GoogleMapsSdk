@@ -17,8 +17,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
     
-    EditText email_l, pass_l;
-    Button login_btn;
+    EditText emailView, passView;
+    Button login_btn, register_btn;
     private FirebaseAuth mAuth;
 
     @Override
@@ -26,10 +26,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         
-        email_l= findViewById(R.id.email_l);
-        pass_l= findViewById(R.id.pass_l);
+        emailView= findViewById(R.id.email_field);
+        passView= findViewById(R.id.pass_field);
         
         login_btn= findViewById(R.id.login_btn);
+        register_btn = findViewById(R.id.register_btn);
         mAuth = FirebaseAuth.getInstance();
 
         login_btn.setOnClickListener(new View.OnClickListener() {
@@ -38,19 +39,23 @@ public class LoginActivity extends AppCompatActivity {
                 login();
             }
         });
+        register_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                registerActivity();
+            }
+        });
     }
 
     private void login() {
-        String email = email_l.getText().toString().trim();
-        String password = pass_l.getText().toString().trim();
+        String email = emailView.getText().toString().trim();
+        String password = passView.getText().toString().trim();
 
         if (email.isEmpty()) {
             Toast.makeText(this, "Please enter your username", Toast.LENGTH_SHORT).show();
         } else if (password.isEmpty()) {
             Toast.makeText(this, "Please enter your password.", Toast.LENGTH_SHORT).show();
-        } else if(email.isEmpty() && password.isEmpty()) {
-            Toast.makeText(this, "Please fill out all the field.", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             userLogin(email, password);
         }
     }
@@ -72,4 +77,10 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private void registerActivity(){
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
 }

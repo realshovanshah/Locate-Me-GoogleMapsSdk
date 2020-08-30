@@ -1,17 +1,25 @@
 package com.realshovanshah.locateme.models;
 
-public class Users {
-    String username, email, fname, phone, password;
+public class User {
+    String userId, username, email, fname, phone;
 
-    public Users() {
+    public User() {
     }
 
-    public Users(String username, String email, String fname, String phone, String password) {
+    public User(String userId, String username, String email, String fname, String phone) {
+        this.userId = userId;
         this.username = username;
         this.email = email;
         this.fname = fname;
         this.phone = phone;
-        this.password = password;
+    }
+
+    public String getId() {
+        return userId;
+    }
+
+    public void setId(String userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -28,9 +36,5 @@ public class Users {
 
     public String getPhone() {
         return phone;
-    }
-
-    public String getPassword() {
-        return password;
     }
 }

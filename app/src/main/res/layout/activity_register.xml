@@ -7,11 +7,6 @@
     android:orientation="vertical"
     tools:context=".RegisterActivity">
 
-    <EditText
-        android:id="@+id/username_r"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Username"/>
 
     <EditText
         android:id="@+id/fname_r"
@@ -51,6 +46,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Register"/>
+
+    <Button
+        android:id="@+id/login_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"/>
 
     <ProgressBar
         android:id="@+id/progress"
