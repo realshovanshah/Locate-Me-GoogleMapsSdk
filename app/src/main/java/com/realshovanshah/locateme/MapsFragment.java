@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,20 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.realshovanshah.locateme.models.User;
+import com.realshovanshah.locateme.models.UserLocation;
+
+import java.util.ArrayList;
 
 import static com.realshovanshah.locateme.utils.Constants.MAPVIEW_BUNDLE_KEY;
 
@@ -28,6 +43,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     private MapView mMapView;
     private View mapView;
+    private ArrayList<User> mUserList = new ArrayList<>();
+    private ArrayList<UserLocation> mUserLocations = new ArrayList<>();
+    private FirebaseFirestore db;
+    private static final String TAG = "MapsFragment";
 
     @Nullable
     @Override
@@ -35,6 +54,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
 
         mMapView = view.findViewById(R.id.map_view);
+        db = FirebaseFirestore.getInstance();
+        getAllUsers();
 
 //        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.maps_fragment);
 //        mapView = mapFragment.getView();
@@ -43,6 +64,42 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         return view;
     }
+
+    private void getAllUsers() {
+        CollectionReference userRef = db.collection("users");
+        userRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots != null){
+                    mUserList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        User user = documentSnapshot.toObject(User.class);
+                        mUserList.add(user);
+                        getUserLocation(user);
+                    }
+                    Log.d(TAG, "onSuccess: "+mUserLocations + mUserList);
+                }
+            }
+        });
+    }
+
+    private void getUserLocation(User user){
+        DocumentReference locationRef = db.collection("UserLocation").document(user.getId());
+        locationRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    if (task.getResult().toObject(UserLocation.class) != null){
+                        mUserLocations.add(task.getResult().toObject(UserLocation.class));
+                    }
+                }else {
+                    Log.d(TAG, "onComplete: Task Failed");
+                }
+            }
+        });
+    }
+
+    // MAPS SDK METHODS NEEDED FOR MAP VIEW
 
     private void initGoogleMaps(Bundle savedInstanceState) {
         // *** IMPORTANT ***

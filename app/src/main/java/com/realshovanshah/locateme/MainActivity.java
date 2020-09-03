@@ -10,7 +10,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,22 +24,22 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
-import com.google.firebase.firestore.ServerTimestamp;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.realshovanshah.locateme.models.User;
 import com.realshovanshah.locateme.models.UserLocation;
 import com.realshovanshah.locateme.utils.UserClient;
 
-import java.util.Date;
+import java.util.ArrayList;
 
 import static com.realshovanshah.locateme.utils.Constants.ERROR_DIALOG_REQUEST;
 import static com.realshovanshah.locateme.utils.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
@@ -71,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
     }
 
+
+    // GETS THE LATEST LOCATION OF THE CURRENT USER
     private void getLastKnownLocation() {
         Log.d(TAG, "getLastKnownLocation: called");
 
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // GET CURRENT USER DETAILS FROM FIRESTORE
     private void getCurrentUserDetails(){
         if(mUserLocation==null){
             mUserLocation = new UserLocation();
@@ -126,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // SAVE THE USER LOCATION OBJECT TO FIRESTORE
     private void saveUserLocation(){
         if (mUserLocation != null){
             DocumentReference userLocationRef = db.collection("UserLocation").document(FirebaseAuth.getInstance().getUid());
@@ -150,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    // REDIRECTS TO SETTINGS SCREEN TO TURN LOCATION ON
     private void buildAlertMessageNoGps() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("This application requires GPS to work properly, do you want to enable it?")
@@ -174,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
     private void getLocationPermission() {
         /*
          * Request location permission, so that we can get the location of the
@@ -193,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // CHECKS IF GOOGLE PLAY SERVICES IS INSTALLED
     public boolean isServicesOK(){
         Log.d(TAG, "isServicesOK: checking google services version");
 
@@ -214,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    // ASK FOR LOCATION PERMISSION
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[],
