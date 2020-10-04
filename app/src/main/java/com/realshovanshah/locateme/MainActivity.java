@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     // GETS THE LATEST LOCATION OF THE CURRENT USER
     private void getLastKnownLocation() {
         Log.d(TAG, "getLastKnownLocation: called");

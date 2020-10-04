@@ -65,6 +65,45 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         return view;
     }
 
+//    private void getAllUsers() {
+//        CollectionReference userRef = db.collection("users");
+//        userRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//            @Override
+//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                if (queryDocumentSnapshots != null){
+//                    mUserList.clear();
+//                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+//                        User user = documentSnapshot.toObject(User.class);
+//                        mUserList.add(user);
+//                        Log.d(TAG, "onSuccess: "+user.getId());
+//                    }
+//                    Log.d(TAG, "onSuccess: " + mUserList);
+//                }
+//            }
+//        });
+//        getUserLocation();
+//    }
+//
+//    private void getUserLocation(){
+//        Log.d(TAG, "getUserLocation: "+mUserList);
+//        for (User user: mUserList){
+//            DocumentReference locationRef = db.collection("UserLocation").document(user.getId());
+//            locationRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                @Override
+//                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                    if(task.isSuccessful()){
+//                        if (task.getResult().toObject(UserLocation.class) != null){
+//                            mUserLocations.add(task.getResult().toObject(UserLocation.class));
+//                        }
+//                    }else {
+//                        Log.d(TAG, "onComplete: Task Failed");
+//                    }
+//                }
+//            });
+//        }
+//        Log.d(TAG, "getUserLocation: "+ mUserLocations);
+//    }
+
     private void getAllUsers() {
         CollectionReference userRef = db.collection("users");
         userRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -75,7 +114,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                         User user = documentSnapshot.toObject(User.class);
                         mUserList.add(user);
-                        getUserLocation(user);
+                        String id = user.getId();
+                        Log.d(TAG, "onSuccess: "+user.getId());
+                        getUserLocation(id);
                     }
                     Log.d(TAG, "onSuccess: "+mUserLocations + mUserList);
                 }
@@ -83,8 +124,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
-    private void getUserLocation(User user){
-        DocumentReference locationRef = db.collection("UserLocation").document(user.getId());
+    private void getUserLocation(String id){
+        DocumentReference locationRef = db.collection("UserLocation").document(id);
         locationRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
